@@ -23,6 +23,25 @@ class Api::ProductsController < ApplicationController
     else
       @message = "An error has been encountered while attempting to save the product."
     end
+
     render "api/products/create.json.jb"
+  end
+
+  def update
+    @product = Product.find(params[:id])
+    @product.name = params[:name] || @product.name
+    @product.price = params[:price] || @product.price
+    @product.image_url = params[:image_url] || @products.image_url
+    @product.description = params[:description] || @product.description
+    @product.save
+    
+    render "api/products/update.json.jb"
+  end
+
+  def delete
+    @product = Product.find(params[:id])
+    @product.delete
+
+    render "api/products/delete.json.jb"
   end
 end
