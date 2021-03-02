@@ -34,13 +34,13 @@ class Api::ProductsController < ApplicationController
     @product.image_url = params[:image_url] || @products.image_url
     @product.description = params[:description] || @product.description
     @product.save
-    
+
     render "api/products/update.json.jb"
   end
 
   def delete
     @product = Product.find(params[:id])
-    @product.delete
+    @product.destroy
 
     render "api/products/delete.json.jb"
   end
