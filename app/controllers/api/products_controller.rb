@@ -17,12 +17,12 @@ class Api::ProductsController < ApplicationController
       image_url: params[:image_url],
       description: params[:description]
     )
-
-    if @product.save
-      @message = "Success!"
-    else
-      @message = "An error has been encountered while attempting to save the product."
-    end
+    
+    # if @product.save
+    #   @message = "Success!"
+    # else
+    #   @message = "An error has been encountered while attempting to save the product."
+    # end
 
     render "api/products/create.json.jb"
   end
