@@ -1,6 +1,10 @@
 class Api::ProductsController < ApplicationController
   def index
-    @products = Product.all
+    if params[:sort]
+      @products = Product.all.order({price: :desc})
+    else
+      @products = Product.all
+    end
     render "api/products/index.json.jb"
   end
   
@@ -18,11 +22,11 @@ class Api::ProductsController < ApplicationController
       description: params[:description]
     )
     
-    # if @product.save
-    #   @message = "Success!"
-    # else
-    #   @message = "An error has been encountered while attempting to save the product."
-    # end
+    if @product.save
+      @message = "Success!"
+    else
+      @message = @product.errors.full_messages
+    end
 
     render "api/products/create.json.jb"
   end

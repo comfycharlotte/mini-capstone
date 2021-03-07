@@ -1,0 +1,4 @@
+sort by lowest price
+- sort_order: asc
+sory by highest price
+- sort_order: desc
