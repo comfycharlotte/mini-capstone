@@ -1,4 +1,6 @@
 class Api::OrdersController < ApplicationController
+  before_action :authenticate_user, only: [:index, :show, :create]
+
   def index
     @orders = current_user.orders
     render 'index.json.jb'
