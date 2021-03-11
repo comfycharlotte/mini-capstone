@@ -4,6 +4,15 @@ class Api::OrdersController < ApplicationController
     render 'index.json.jb'
   end
 
+  def show
+    @order = Order.find_by(id: params[:id], user_id: current_user.id)
+    if @order
+      render 'show.json.jb'
+    else
+      render json: {}, status: :unauthorized
+    end
+  end
+
   def create
     p current_user
     user = User.find_by(id: 1)
