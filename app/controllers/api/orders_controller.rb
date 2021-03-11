@@ -1,19 +1,24 @@
 class Api::OrdersController < ApplicationController
+  def index
+    @orders = current_user.orders
+    render 'index.json.jb'
+  end
+
   def create
+    p current_user
     user = User.find_by(id: 1)
     product = Product.find_by(id: 2)
-    order = Order.new(
-      user_id: user.id,
+    calculated_tax = product.tax * params[:quantity].to_i
+    calculated_total = product.total * params[:quantity].to_i
+    @order = Order.new(
+      user_id: current_user.id,
       product_id: product.id,
       quantity: params[:quantity],
-      subtotal: product.price * params[:quantity],
-      tax: product.tax * params[:quantity],
-      total: product.total * params[:quantity]
+      subtotal: product.price * params[:quantity].to_i,
+      tax: calculated_tax,
+      total: calculated_total
     )
-    if order.save
-      render json: { message: "Order created successfully"}
-    else
-      render json: { errors: order.errors.full_messages }
-    end
+    @order.save!
+    render 'show.json.jb'
   end
 end
