@@ -1,16 +1,15 @@
 class Product < ApplicationRecord 
+  validates :name, presence: true
+  validates :price, presence: true, numericality: { greater_than: 0 }
+  validates :quantity, presence: true, numericality: { only_integer: true }
+
   belongs_to :supplier  
-  belongs_to :product_categories
+  
+  has_many :images
+  has_many :orders
   has_many :product_categories
   has_many :categories, through: :product_categories, source: :category
-  has_many :images
-  validates :name, presence: true
-  validates :price, presence: true, numericality: {
-    greater_than: 0
-  }
-  validates :quantity, presence: true, numericality: {
-    only_integer: true
-  }
+  has_many :carted_products
 
   def is_discounted?
     if price < 10
