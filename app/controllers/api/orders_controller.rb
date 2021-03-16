@@ -17,10 +17,14 @@ class Api::OrdersController < ApplicationController
 
   def create
     p current_user
-    user = User.find_by(id: 1)
-    product = Product.find_by(id: 2)
+    user = Product.find_by(id: params[:product_id])
+    product = Product.find_by(
+
     calculated_tax = product.tax * params[:quantity].to_i
     calculated_total = product.total * params[:quantity].to_i
+
+    carted_products = CartedProduct.where(user_id: current_user.id, status: "carted")
+
     @order = Order.new(
       user_id: current_user.id,
       product_id: product.id,
